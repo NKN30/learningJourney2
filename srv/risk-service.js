@@ -11,6 +11,7 @@ module.exports = cds.service.impl(async function () {
     // This handler will be executed directly AFTER a READ operation on RISKS
     // With this we can loop through the received data set and manipulate the single risk entries
     this.after("READ", Risks, (data) => {
+        debugger
         // Convert to array, if it's only a single risk, so that the code won't break here
         const risks = Array.isArray(data) ? data : [data];
 
@@ -40,24 +41,25 @@ module.exports = cds.service.impl(async function () {
         })
     })
     
-    // // connect to remote service
-    // const BPsrv = await cds.connect.to("API_BUSINESS_PARTNER");
+    // connect to remote service
+    const BPsrv = await cds.connect.to("API_BUSINESS_PARTNER");
 
-    // /**
-    //  * Event-handler for read-events on the BusinessPartners entity.
-    //  * Each request to the API Business Hub requires the apikey in the header.
-    //  */
-    // this.on("READ", BusinessPartners, async (req) => {
-    //     // The API Sandbox returns alot of business partners with empty names.
-    //     // We don't want them in our application
-    //     req.query.where("LastName <> '' and FirstName <> '' ");
+    /**
+     * Event-handler for read-events on the BusinessPartners entity.
+     * Each request to the API Business Hub requires the apikey in the header.
+     */
+    this.on("READ", BusinessPartners, async (req) => {
+        debugger
+        // The API Sandbox returns alot of business partners with empty names.
+        // We don't want them in our application
+        req.query.where("LastName <> '' and FirstName <> '' ");
 
-    //     return await BPsrv.transaction(req).send({
-    //         query: req.query,
-    //         headers: {
-    //             apikey: process.env.apikey,
-    //         },
-    //     });
-    // });
+        return await BPsrv.transaction(req).send({
+            query: req.query,
+            headers: {
+                apikey: process.env.apikey,
+            },
+        });
+    });
 
 });
