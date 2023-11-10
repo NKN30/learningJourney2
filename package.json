@@ -13,7 +13,7 @@
   "devDependencies": {
     "@cap-js/sqlite": "^1",
     "@sap-cloud-sdk/resilience": "^3.7.0",
-    "@sap/ux-specification": "^1.108.16"
+    "@sap/ux-specification": "^1.108.18"
   },
   "scripts": {
     "start": "cds-serve",
